@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private Button equal;
 
     private ListView result;
-    private ArrayList<Float> arrayList;
-    private ArrayAdapter<Float> arrayAdapter;
+    private ArrayList<String> arrayList;
+    private ArrayAdapter<String> arrayAdapter;
 
 
     @Override
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         number1 = (EditText) findViewById(R.id.et_num1);
         number2 = (EditText) findViewById(R.id.et_num2);
         equal = (Button) findViewById(R.id.btn_equal);
-        arrayList = new ArrayList<Float>();
+        arrayList = new ArrayList<String>();
         result = (ListView) findViewById((R.id.lvAnswer));
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
         result.setAdapter(arrayAdapter);
@@ -42,19 +42,39 @@ public class MainActivity extends AppCompatActivity {
         equal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                float num1 = Float.parseFloat(number1.getText().toString());
-                float num2 = Float.parseFloat(number2.getText().toString());
+//                Toast toast = new Toast(getApplicationContext());
+//                try{
+//
+//                    float num1 = Float.parseFloat(number1.getText().toString());
+//                    float num2 = Float.parseFloat(number2.getText().toString());
+//                    float div = num1/num2;
+//                    arrayList.add(div);
+//                    arrayAdapter.notifyDataSetChanged();
+//                }
+//                catch (RuntimeException e){
+//                    toast.makeText(getBaseContext(), "Input field is empty", toast.LENGTH_SHORT).show();
+//                }
+
+
+
+
                 Toast toast = new Toast(getApplicationContext());
-                toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-                if(number1.getText().toString()==null || number2.getText().toString()==null ){
+                if(number1.getText().toString().isEmpty() || number2.getText().toString().isEmpty() ){
                     toast.makeText(getBaseContext(), "Input field is empty", toast.LENGTH_SHORT).show();
-                }else{
-                     num1 = Float.parseFloat(number1.getText().toString());
-                     num2 = Float.parseFloat(number2.getText().toString());
                 }
-                float div = num1/num2;
-                arrayList.add(div);
-                arrayAdapter.notifyDataSetChanged();
+                else {
+                    if (number1.getText().toString().matches("[a-zA-Z]+") ||
+                            number2.getText().toString().matches("[a-zA-Z]+")) {
+                        toast.makeText(getBaseContext(), "input cannot be text", toast.LENGTH_SHORT).show();
+                    } else {
+                        float num1 = Float.parseFloat(number1.getText().toString());
+                        float num2 = Float.parseFloat(number2.getText().toString());
+                        float div = num1 / num2;
+                        arrayList.add(num1 + "/" + num2 + "=" +div);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                }
+
 
             }
         });
